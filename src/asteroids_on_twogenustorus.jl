@@ -1,7 +1,7 @@
 using Colors
 
-WIDTH = 600
-HEIGHT = 600
+WIDTH = 800
+HEIGHT = 800
 BACKGROUND = colorant"grey26"
 
 function draw(g::Game)
