@@ -2,7 +2,6 @@ module MakeAsteroidsAssets
 
 using Luxor
 using Random
-using Distributions
 
 export make_big_asteroids
 
