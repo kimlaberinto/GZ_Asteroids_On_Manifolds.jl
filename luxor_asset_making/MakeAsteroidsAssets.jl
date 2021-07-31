@@ -59,4 +59,15 @@ function make_big_asteroids(filename; num_of_assets=5)
     return nothing
 end
 
+function make_small_asteroids(filename; num_of_assets=5)
+    filename_no_extension, extension = Base.Filesystem.splitext(filename)
+
+    for asset_index in 1:num_of_assets
+        current_filename = filename_no_extension * "_$(asset_index)" * extension
+        make_asteroid(current_filename, 20; size=(75, 75))
+    end
+
+    return nothing
+end
+
 end
