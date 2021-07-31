@@ -21,6 +21,7 @@ function make_asteroid(filename, base_radius; size=(150, 150))
     # Add jitter to angles
     angles += [lightweight_rand_uniform(-(2*pi/4 * 0.1), (2*pi/4 * 0.1)) for _ in 1:length(angles)]
 
+    # Make corners of the asteroid
     corners_of_asteroid = Point[]
     for angle in angles
         relative_radial_distance = lightweight_rand_uniform(-base_radius*0.25, base_radius*0.25) #TODO
@@ -33,6 +34,7 @@ function make_asteroid(filename, base_radius; size=(150, 150))
         push!(corners_of_asteroid, Point(x_coord, y_coord))
     end
 
+    # Draw the corners
     setcolor("white")
     for (index, corner) in enumerate(corners_of_asteroid)
         prev_corner_index = index-1
