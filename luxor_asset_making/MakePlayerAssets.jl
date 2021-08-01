@@ -1,13 +1,8 @@
 module MakePlayerAssets
 
 using Luxor
-using Random
 
 export make_player
-
-function lightweight_rand_uniform(a, b)
-    return (b-a)*rand() + a
-end
 
 function make_player(filename)
     PLAYER_WIDTH = 30
