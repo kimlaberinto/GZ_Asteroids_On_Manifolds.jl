@@ -2,11 +2,14 @@ module MakeAsteroidsAssets
 
 using Luxor
 using Random
+using StableRNGs
+
+rng = StableRNG(1234)
 
 export make_big_asteroids, make_small_asteroids
 
 function lightweight_rand_uniform(a, b)
-    return (b-a)*rand() + a
+    return (b-a)*rand(rng) + a
 end
 
 function make_asteroid(filename, base_radius; size=(150, 150))
