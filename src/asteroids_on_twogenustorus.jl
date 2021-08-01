@@ -7,6 +7,7 @@ BACKGROUND = colorant"black"
 #Custom constants
 NON_ARENA_COLOR = colorant"grey26"
 
+# Define Non-Arenas
 struct NonArenaRect
     geometry::Rect
 end
@@ -19,9 +20,13 @@ nonarena_mid = NonArenaRect(Rect(450, 50, 400, 400))
 
 non_arenas = NonArenaRect[nonarena_N, nonarena_W, nonarena_S, nonarena_E, nonarena_mid]
 
+# Define Player Ship
+
+
+
 function draw(g::Game)
     clear()
-    
+
     nonarena_draw()
 end
 
