@@ -26,7 +26,7 @@ mutable struct Player
     velocity::Array
 end
 
-set_player_position!(x, y) = (player.actor.pos = (x, y))
+set_player_position!(x::Int, y::Int) = (player.actor.pos = (x, y))
 draw(player::Player) = draw(player.actor)
 accelerate_player!(acceleration, dt) = (player.velocity += acceleration.*dt)
 
@@ -39,9 +39,11 @@ function update_player_position!(dt)
     dx = displacement[1]
     dy = displacement[2]
 
-    # Apply velocity
-    new_x, new_y = (x + dx, y + dy)
+    # Apply velocity, but rounded
+    new_x, new_y = round.((x + dx, y + dy))
     
+    new_x, new_y = convert(Int64, new_x), convert(Int64, new_y)
+
     # Wrap around if necessary
     new_x, new_y = two_genus_wrap_position(new_x, new_y)
 
@@ -52,7 +54,7 @@ end
 
 # return true when point is in the arena,
 # i.e. none of the non-arena geometries are colliding with this
-function position_in_arena(x, y)
+function position_in_arena(x::Int, y::Int)
     touching_one_of_non_arena = false
     for nonarena in non_arenas
         touching_one_of_non_arena |= collide(nonarena.geometry, x, y)
