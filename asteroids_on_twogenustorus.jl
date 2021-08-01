@@ -63,19 +63,30 @@ end
 # TODO, not working, just test
 function two_genus_wrap_position(x, y)
 
-    new_x, new_y = x, y
+    current_x, current_y = x, y
 
-    if (x > 850)
-        new_x = 50
-    elseif (x < 50)
-        new_x = 850
-    end
+    for _ in 1:2
+        if current_y < 450 && current_x < 50
+            current_x = 450
+        elseif current_y < 450 && current_x > 450 && current_y < (-current_x + 900)
+            current_x = 50
+        elseif current_y > 850 && current_x > 450
+            current_y = 450
+        elseif current_y < 450 && current_x > 450 && current_y > (-current_x + 900) 
+            current_y = 850
+        elseif current_y < 50
+            current_y = 850
+        elseif current_y > 850
+            current_y = 50
+        elseif current_x < 50
+            current_x = 850
+        elseif current_x > 850
+            current_x = 50
+        end
+    end 
 
-    if (y < 50)
-        new_y = 850
-    elseif (y > 850)
-        new_y = 50
-    end
+    new_x, new_y = current_x, current_y
+    #@assert position_in_arena(new_x, new_y)
 
     return new_x, new_y
 end
