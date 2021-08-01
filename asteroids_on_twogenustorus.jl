@@ -1,4 +1,5 @@
 using Colors
+using LinearAlgebra
 
 game_include("src/twogenustorus_gamesetup.jl")
 
