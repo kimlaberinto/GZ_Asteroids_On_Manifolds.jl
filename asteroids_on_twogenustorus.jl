@@ -22,7 +22,7 @@ non_arenas = NonArenaRect[nonarena_N, nonarena_W, nonarena_S, nonarena_E, nonare
 
 # Define Player Ship
 player = Actor("player.png")
-player.pos = (450, 450)
+player.pos = (225, 225)
 
 
 function draw(g::Game)
