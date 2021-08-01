@@ -59,7 +59,7 @@ function position_in_arena(x::Int, y::Int)
     for nonarena in non_arenas
         touching_one_of_non_arena |= collide(nonarena.geometry, x, y)
     end
-    return touching_one_of_non_arena
+    return !touching_one_of_non_arena
 end
 
 # TODO, not working, just test
@@ -88,8 +88,7 @@ function two_genus_wrap_position(x, y)
     end 
 
     new_x, new_y = current_x, current_y
-    #@assert position_in_arena(new_x, new_y)
-
+    
     return new_x, new_y
 end
 
