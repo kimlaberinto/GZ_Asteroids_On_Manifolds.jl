@@ -11,21 +11,21 @@ mutable struct Player
 end
 
 player_angle(player::Player) = player.actor.angle
-set_player_position!(x, y) = (player.actor.pos = (x, y))
+set_position!(player::Player, x, y) = (player.actor.pos = (x, y))
 draw(player::Player) = draw(player.actor)
-function accelerate_player!(acceleration, dt)
+function accelerate!(player::Player, acceleration, dt)
     player.velocity += acceleration.*dt
     velocity_magnitude = norm(player.velocity)
     capped_velocity_magnitude = min(velocity_magnitude, 1000)
     player.velocity = normalize(player.velocity) * capped_velocity_magnitude
     return nothing
 end
-angular_accelerate_player!(angular_acceleration, dt) = (player.angular_velocity += angular_acceleration * dt)
+angular_accelerate!(obj, angular_acceleration, dt) = (obj.angular_velocity += angular_acceleration * dt)
 
-function update_player_position!(dt)
-    x, y = player.actor.pos 
+function update_position!(obj, dt)
+    x, y = obj.actor.pos
 
-    v = player.velocity
+    v = obj.velocity
     displacement = v * dt
 
     dx = displacement[1]
@@ -38,14 +38,15 @@ function update_player_position!(dt)
     new_x, new_y = two_genus_wrap_position(new_x, new_y)
 
     # Update
-    set_player_position!(new_x, new_y)
+    set_position!(obj, new_x, new_y)
     return nothing
 end
 
-update_player_angle!(dt) = player.actor.angle += player.angular_velocity * dt
+update_angle!(obj, dt) = obj.actor.angle += obj.angular_velocity * dt
+
 # Instantiate a global player ship
 player = Player(Actor("player.png"), [0, 0], 0)
-set_player_position!(225, 225)
+set_position!(player, 225, 225)
 
 function draw(g::Game)
     clear()
@@ -62,14 +63,14 @@ function update(g::Game, dt)
     angle_deg = player_angle(player) # [Degrees]
     angle_rad = angle_deg / 360 * 2 * pi
     acceleration_vector = 200 .* [cos(angle_rad), sin(angle_rad)]
-    g.keyboard.UP && accelerate_player!(acceleration_vector, dt)
-    g.keyboard.LEFT && angular_accelerate_player!(-600, dt)
-    g.keyboard.RIGHT && angular_accelerate_player!(600, dt)
+    g.keyboard.UP && accelerate!(player, acceleration_vector, dt)
+    g.keyboard.LEFT && angular_accelerate!(player, -600, dt)
+    g.keyboard.RIGHT && angular_accelerate!(player, 600, dt)
 
-    !(g.keyboard.LEFT) && !(g.keyboard.RIGHT) && angular_accelerate_player!(-1 * sign(player.angular_velocity) * 300, dt)
+    !(g.keyboard.LEFT) && !(g.keyboard.RIGHT) && angular_accelerate!(player, -1 * sign(player.angular_velocity) * 300, dt)
 
     # Player position and angle update
-    update_player_position!(dt)
-    update_player_angle!(dt)
+    update_position!(player, dt)
+    update_angle!(player, dt)
 
 end
