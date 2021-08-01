@@ -2,26 +2,34 @@ using Colors
 
 WIDTH = 900
 HEIGHT = 900
-BACKGROUND = colorant"grey26"
+BACKGROUND = colorant"black"
 
+#Custom constants
+NON_ARENA_COLOR = colorant"grey26"
 
-struct ArenaRect
+struct NonArenaRect
     geometry::Rect
-    arena_color
 end
 
-arena_left = ArenaRect(Rect(50, 50, 400, 800), colorant"black")
-arena_right =  ArenaRect(Rect(450, 450, 400, 400), colorant"black")
+nonarena_N = NonArenaRect(Rect(0, 0, 900, 50))
+nonarena_W = NonArenaRect(Rect(0, 0, 50, 900))
+nonarena_S = NonArenaRect(Rect(0, 850, 900, 50))
+nonarena_E = NonArenaRect(Rect(850, 0, 50, 900))
+nonarena_mid = NonArenaRect(Rect(450, 50, 400, 400))
 
-arenas = ArenaRect[arena_left, arena_right]
+non_arenas = NonArenaRect[nonarena_N, nonarena_W, nonarena_S, nonarena_E, nonarena_mid]
 
 function draw(g::Game)
     clear()
-    for arena in arenas
-        draw(arena.geometry, arena.arena_color, fill=true)
-    end
+    
+    nonarena_draw()
 end
 
+function nonarena_draw()
+    for nonarena in non_arenas
+        draw(nonarena.geometry, NON_ARENA_COLOR, fill=true)
+    end
+end
 
 function update(g::Game)
 
