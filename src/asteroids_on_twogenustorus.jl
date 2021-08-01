@@ -21,11 +21,14 @@ nonarena_mid = NonArenaRect(Rect(450, 50, 400, 400))
 non_arenas = NonArenaRect[nonarena_N, nonarena_W, nonarena_S, nonarena_E, nonarena_mid]
 
 # Define Player Ship
-
+player = Actor("player.png")
+player.pos = (450, 450)
 
 
 function draw(g::Game)
     clear()
+
+    draw(player)
 
     nonarena_draw()
 end
