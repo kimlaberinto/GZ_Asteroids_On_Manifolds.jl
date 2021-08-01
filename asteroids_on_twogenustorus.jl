@@ -12,7 +12,13 @@ end
 player_angle(player::Player) = player.actor.angle
 set_player_position!(x, y) = (player.actor.pos = (x, y))
 draw(player::Player) = draw(player.actor)
-accelerate_player!(acceleration, dt) = (player.velocity += acceleration.*dt)
+function accelerate_player!(acceleration, dt)
+    player.velocity += acceleration.*dt
+    velocity_magnitude = norm(player.velocity)
+    capped_velocity_magnitude = min(velocity_magnitude, 600)
+    player.velocity = normalize(player.velocity) * capped_velocity_magnitude
+    return nothing
+end
 angular_accelerate_player!(angular_acceleration, dt) = (player.angular_velocity += angular_acceleration * dt)
 
 function update_player_position!(dt)
