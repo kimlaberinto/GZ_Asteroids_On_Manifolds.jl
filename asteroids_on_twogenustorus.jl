@@ -126,7 +126,7 @@ function update(g::Game, dt)
     g.keyboard.LEFT && angular_accelerate_player!(-600, dt)
     g.keyboard.RIGHT && angular_accelerate_player!(600, dt)
 
-    angular_accelerate_player!(-1 * sign(player.angular_velocity) * 300, dt)
+    !(g.keyboard.LEFT) && !(g.keyboard.RIGHT) && angular_accelerate_player!(-1 * sign(player.angular_velocity) * 300, dt)
 
     # Player position and angle update
     update_player_position!(dt)
