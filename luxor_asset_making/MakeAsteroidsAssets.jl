@@ -3,7 +3,7 @@ module MakeAsteroidsAssets
 using Luxor
 using Random
 
-export make_big_asteroids
+export make_big_asteroids, make_small_asteroids
 
 function lightweight_rand_uniform(a, b)
     return (b-a)*rand() + a
