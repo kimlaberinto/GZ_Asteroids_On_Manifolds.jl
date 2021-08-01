@@ -11,7 +11,6 @@ mutable struct Player
 end
 
 player_angle(player::Player) = player.actor.angle
-set_position!(player::Player, x, y) = (player.actor.pos = (x, y))
 draw(player::Player) = draw(player.actor)
 function accelerate!(player::Player, acceleration, dt)
     player.velocity += acceleration.*dt
@@ -20,6 +19,10 @@ function accelerate!(player::Player, acceleration, dt)
     player.velocity = normalize(player.velocity) * capped_velocity_magnitude
     return nothing
 end
+
+# Generic functions
+set_position!(obj, x, y) = (obj.actor.pos = (x, y))
+
 angular_accelerate!(obj, angular_acceleration, dt) = (obj.angular_velocity += angular_acceleration * dt)
 
 function update_position!(obj, dt)
@@ -44,9 +47,12 @@ end
 
 update_angle!(obj, dt) = obj.actor.angle += obj.angular_velocity * dt
 
+
+
 # Instantiate a global player ship
 player = Player(Actor("player.png"), [0, 0], 0)
 set_position!(player, 225, 225)
+
 
 function draw(g::Game)
     clear()
