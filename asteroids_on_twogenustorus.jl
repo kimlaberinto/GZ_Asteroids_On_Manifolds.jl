@@ -15,7 +15,7 @@ draw(player::Player) = draw(player.actor)
 function accelerate!(player::Player, acceleration, dt)
     player.velocity += acceleration.*dt
     velocity_magnitude = norm(player.velocity)
-    capped_velocity_magnitude = min(velocity_magnitude, 1000)
+    capped_velocity_magnitude = min(velocity_magnitude, 600)
     player.velocity = normalize(player.velocity) * capped_velocity_magnitude
     return nothing
 end
@@ -113,12 +113,12 @@ function update(g::Game, dt)
     # Screen top is more negative in y axis
     angle_deg = player_angle(player) # [Degrees]
     angle_rad = angle_deg / 360 * 2 * pi
-    acceleration_vector = 200 .* [cos(angle_rad), sin(angle_rad)]
+    acceleration_vector = 700 .* [cos(angle_rad), sin(angle_rad)]
     g.keyboard.UP && accelerate!(player, acceleration_vector, dt)
-    g.keyboard.LEFT && angular_accelerate!(player, -600, dt)
-    g.keyboard.RIGHT && angular_accelerate!(player, 600, dt)
+    g.keyboard.LEFT && angular_accelerate!(player, -1000, dt)
+    g.keyboard.RIGHT && angular_accelerate!(player, 1000, dt)
 
-    !(g.keyboard.LEFT) && !(g.keyboard.RIGHT) && angular_accelerate!(player, -1 * sign(player.angular_velocity) * 300, dt)
+    !(g.keyboard.LEFT) && !(g.keyboard.RIGHT) && angular_accelerate!(player, -1 * sign(player.angular_velocity) * 800, dt)
 
     # Player position and angle update
     update_position!(player, dt)
