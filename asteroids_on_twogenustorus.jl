@@ -15,7 +15,7 @@ draw(player::Player) = draw(player.actor)
 function accelerate!(player::Player, acceleration, dt)
     player.velocity += acceleration.*dt
     velocity_magnitude = norm(player.velocity)
-    capped_velocity_magnitude = min(velocity_magnitude, 600)
+    capped_velocity_magnitude = min(velocity_magnitude, 500)
     player.velocity = normalize(player.velocity) * capped_velocity_magnitude
     return nothing
 end
