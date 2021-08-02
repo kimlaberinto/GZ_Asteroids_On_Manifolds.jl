@@ -83,13 +83,17 @@ end
 
 update_angle!(obj, dt) = obj.actor.angle += obj.angular_velocity * dt
 
+function reset()
+    global player, asteroids
+    # Instantiate a global player ship
+    player = Player(Actor("player.png"), [0, 0], 0)
+    set_position!(player, 225, 225)
 
-# Instantiate a global player ship
-player = Player(Actor("player.png"), [0, 0], 0)
-set_position!(player, 225, 225)
+    # Instantiate asteroids
+    asteroids = Asteroid[init_random_asteroid() for _ in 1:5]
+end
 
-# Instantiate asteroids
-asteroids = Asteroid[init_random_asteroid() for _ in 1:5]
+reset()
 
 function draw(g::Game)
     clear()
@@ -124,6 +128,13 @@ function update(g::Game, dt)
     for asteroid in asteroids
         update_position!(asteroid, dt)
         update_angle!(asteroid, dt)
+    end
+
+    for asteroid in asteroids
+        if collide(asteroid.actor, player.actor)
+            reset()
+            continue
+        end
     end
 
 end
