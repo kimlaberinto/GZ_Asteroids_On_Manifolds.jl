@@ -168,7 +168,7 @@ function update(g::Game, dt)
 
     if g.keyboard.SPACE
         player_direction = [cos(angle_rad), sin(angle_rad)]
-        bullet_speed = 100 * player_direction
+        bullet_speed = 100 * player_direction + player.velocity
         new_bullet = Bullet(Circle(player.actor.pos[1], player.actor.pos[2], 5), bullet_speed)
         set_position!(new_bullet, player.actor.pos[1], player.actor.pos[2])
         push!(bullets, new_bullet)
