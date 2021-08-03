@@ -4,6 +4,13 @@ using LinearAlgebra
 game_include("src/twogenustorus_gamesetup.jl")
 
 # Define Player Ship
+global can_shoot = true
+function reset_can_shoot()
+    global can_shoot
+    can_shoot = true
+    return nothing
+end
+
 mutable struct Player
     actor::Actor
     velocity::Array
@@ -84,6 +91,12 @@ function update_position!(obj::Bullet, dt)
     return nothing
 end
 set_position!(bullet::Bullet, x, y) = ((bullet.actor.x, bullet.actor.y) = (x, y))
+
+function delete_this_particular_bullet(b)
+    global bullets
+    deleteat!(bullets, findall(==(b), bullets))
+    return nothing
+end
 
 # Generic functions
 set_position!(obj, x, y) = (obj.actor.pos = (x, y))
@@ -166,12 +179,16 @@ function update(g::Game, dt)
         update_angle!(asteroid, dt)
     end
 
-    if g.keyboard.SPACE
+    if g.keyboard.SPACE && can_shoot
+        global can_shoot
         player_direction = [cos(angle_rad), sin(angle_rad)]
         bullet_speed = 100 * player_direction + player.velocity
         new_bullet = Bullet(Circle(player.actor.pos[1], player.actor.pos[2], 5), bullet_speed)
         set_position!(new_bullet, player.actor.pos[1], player.actor.pos[2])
         push!(bullets, new_bullet)
+        can_shoot = false
+        schedule_once(reset_can_shoot, 0.1)
+        schedule_once(() -> delete_this_particular_bullet(new_bullet), 2)
     end
 
     #update bullets
