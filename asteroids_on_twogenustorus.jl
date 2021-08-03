@@ -186,6 +186,14 @@ function update(g::Game, dt)
             reset()
             continue
         end
+
+        for bullet in bullets
+            if collide(asteroid.actor, bullet.actor)
+                deleteat!(bullets, findall(==(bullet), bullets))
+                deleteat!(asteroids, findall(==(asteroid), asteroids))
+            end
+        end
+
     end
 
 end
