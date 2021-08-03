@@ -122,7 +122,7 @@ function reset()
     asteroids = Asteroid[init_random_asteroid() for _ in 1:5]
 
     # clear bullet array
-    bullets = Bullet[Bullet(Circle(225, 225, 10), [0, 0])]
+    bullets = Bullet[]
 end
 
 reset()
