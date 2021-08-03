@@ -132,7 +132,7 @@ function reset()
     set_position!(player, 225, 225)
 
     # Instantiate asteroids
-    asteroids = Asteroid[init_random_asteroid() for _ in 1:5]
+    asteroids = Asteroid[init_random_asteroid() for _ in 1:15]
 
     # clear bullet array
     bullets = Bullet[]
@@ -157,13 +157,13 @@ function draw(g::Game)
 end
 
 function update(g::Game, dt)
-
     # Player acceleration
     # Screen top is more negative in y axis
     angle_deg = player_angle(player) # [Degrees]
     angle_rad = angle_deg / 360 * 2 * pi
     acceleration_vector = 700 .* [cos(angle_rad), sin(angle_rad)]
     g.keyboard.UP && accelerate!(player, acceleration_vector, dt)
+    g.keyboard.DOWN && accelerate!(player, -0.5*acceleration_vector, dt)
     g.keyboard.LEFT && angular_accelerate!(player, -1000, dt)
     g.keyboard.RIGHT && angular_accelerate!(player, 1000, dt)
 
