@@ -22,7 +22,7 @@ draw(player::Player) = draw(player.actor)
 function accelerate!(player::Player, acceleration, dt)
     player.velocity += acceleration.*dt
     velocity_magnitude = norm(player.velocity)
-    capped_velocity_magnitude = min(velocity_magnitude, 500)
+    capped_velocity_magnitude = min(velocity_magnitude, 300)
     player.velocity = normalize(player.velocity) * capped_velocity_magnitude
     return nothing
 end
@@ -38,7 +38,7 @@ draw(asteroid::Asteroid) = draw(asteroid.actor)
 function accelerate!(asteroid::Asteroid, acceleration, dt)
     asteroid.velocity += acceleration.*dt
     velocity_magnitude = norm(asteroid.velocity)
-    capped_velocity_magnitude = min(velocity_magnitude, 300)
+    capped_velocity_magnitude = min(velocity_magnitude, 500)
     asteroid.velocity = normalize(asteroid.velocity) * capped_velocity_magnitude
     return nothing
 end
@@ -160,8 +160,8 @@ function update(g::Game, dt)
     # Player acceleration
     # Screen top is more negative in y axis
     angle_deg = player_angle(player) # [Degrees]
-    angle_rad = angle_deg / 360 * 2 * pi
-    acceleration_vector = 700 .* [cos(angle_rad), sin(angle_rad)]
+    angle_rad = angle_deg / 360.0 * 2 * pi
+    acceleration_vector = 700.0 .* [cos(angle_rad), sin(angle_rad)]
     g.keyboard.UP && accelerate!(player, acceleration_vector, dt)
     g.keyboard.DOWN && accelerate!(player, -0.5*acceleration_vector, dt)
     g.keyboard.LEFT && angular_accelerate!(player, -1000, dt)
@@ -182,7 +182,7 @@ function update(g::Game, dt)
     if g.keyboard.SPACE && can_shoot
         global can_shoot
         player_direction = [cos(angle_rad), sin(angle_rad)]
-        bullet_speed = 100 * player_direction + player.velocity
+        bullet_speed = 500.0 * player_direction + player.velocity
         new_bullet = Bullet(Circle(player.actor.pos[1], player.actor.pos[2], 5), bullet_speed)
         set_position!(new_bullet, player.actor.pos[1], player.actor.pos[2])
         push!(bullets, new_bullet)
